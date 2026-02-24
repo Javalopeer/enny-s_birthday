@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Invitacion - Enny's Birthday</title>
+    <link rel="icon" type="image/jpeg" href="favicon.jpg" />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Lato:wght@300;400&display=swap"
       rel="stylesheet"
@@ -387,6 +388,41 @@
         flex-shrink: 0;
       }
 
+      .rsvp-name-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+
+      .rsvp-name-input {
+        width: 100%;
+        max-width: 320px;
+        padding: 11px 18px;
+        background: rgba(76, 43, 8, 0.35);
+        border: 1px solid rgba(171, 119, 67, 0.35);
+        border-radius: 2px;
+        color: var(--cream);
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.05rem;
+        letter-spacing: 0.06em;
+        text-align: center;
+        outline: none;
+        transition:
+          border-color 0.25s,
+          background 0.25s;
+      }
+
+      .rsvp-name-input::placeholder {
+        color: rgba(215, 189, 166, 0.4);
+      }
+
+      .rsvp-name-input:focus {
+        border-color: rgba(171, 119, 67, 0.7);
+        background: rgba(76, 43, 8, 0.55);
+      }
+
       /* ── Footer ───────────────────────────────────────── */
       .card-footer {
         border-top: 1px solid rgba(171, 119, 67, 0.18);
@@ -730,39 +766,23 @@
 
           <!-- Consideraciones -->
           <div class="considerations">
-            <p class="considerations-title">Consideraciones del lugar</p>
+            <p class="considerations-title">Consideraciones a tomar</p>
             <ul class="considerations-list">
+              <li><strong>Entrada:</strong> ₡800 por persona adulta</li>
+              <li><strong>Parqueo:</strong> ₡2 000 por vehículo</li>
+              <li><strong>Teléfono:</strong> 2105-5500</li>
               <li>
-                <strong>Entrada:</strong> Parque natural privado, tarifa de
-                ingreso por persona
+                <strong>Instalaciones:</strong> 7 ranchos con electricidad, agua
+                potable y servicios sanitarios
               </li>
               <li>
-                <strong>Estacionamiento:</strong> Disponible dentro del parque,
-                sin costo adicional
+                <strong>Naturaleza:</strong> Ríos de agua fresca, vista al Valle
+                Central y más de 20 hectáreas de bosque
               </li>
               <li>
-                <strong>Ropa:</strong> Se recomienda ropa cómoda y cerrada, el
-                bosque puede estar húmedo
-              </li>
-              <li>
-                <strong>Calzado:</strong> Zapatos cerrados o botas, no se
-                recomiendan sandalias
-              </li>
-              <li>
-                <strong>Clima:</strong> Puede refrescar bastante; llevar una
-                capa extra o suéter ligero
-              </li>
-              <li>
-                <strong>Senderos:</strong> Hay caminos naturales, el terreno
-                puede ser irregular
-              </li>
-              <li>
-                <strong>Insectos:</strong> Recomendable repelente, es ambiente
-                de bosque tropical
-              </li>
-              <li>
-                <strong>Mascotas:</strong> Consultar disponibilidad antes del
-                evento
+                <strong>Cómo llegar:</strong> Del cruce del Brasilia en Los
+                Ángeles de San Rafael de Heredia, 3 km al noroeste, para mayor
+                indicacion utilizar Waze o Google Maps adjuntado.
               </li>
             </ul>
           </div>
@@ -776,7 +796,18 @@
           <!-- RSVP -->
           <div class="rsvp-section">
             <p class="rsvp-intro">Por favor confirmá tu asistencia</p>
+            <div class="rsvp-name-wrap">
+              <input
+                id="rsvp-name"
+                class="rsvp-name-input"
+                type="text"
+                placeholder="Tu nombre"
+                maxlength="60"
+                autocomplete="off"
+              />
+            </div>
             <a
+              id="rsvp-btn"
               class="rsvp-btn"
               href="https://wa.me/50660431842?text=Hola!%20Confirmo%20mi%20asistencia%20al%20cumplea%C3%B1os%20de%20Enny%20%F0%9F%8C%B8"
               target="_blank"
@@ -821,6 +852,18 @@
           `https://waze.com/ul?ll=${EVENT_LAT},${EVENT_LNG}&navigate=yes`;
         document.getElementById('gmaps-link').href =
           `https://maps.google.com/?q=${EVENT_LAT},${EVENT_LNG}`;
+
+        // RSVP: build WhatsApp link with guest name
+        const nameInput = document.getElementById('rsvp-name');
+        const rsvpBtn = document.getElementById('rsvp-btn');
+        function updateRsvpLink() {
+          const name = nameInput.value.trim();
+          const msg = name
+            ? `Hola! Soy ${name} y confirmo mi asistencia al cumpleaños de Enny 🌸`
+            : `Hola! Confirmo mi asistencia al cumpleaños de Enny 🌸`;
+          rsvpBtn.href = `https://wa.me/50660431842?text=${encodeURIComponent(msg)}`;
+        }
+        nameInput.addEventListener('input', updateRsvpLink);
       })();
 
       /* ══════════════════════════════════════════════
